@@ -1,0 +1,53 @@
+- become: yes
+  hosts: all
+  name: basic_setup
+  tasks:
+  
+  - name: Add user philipp
+    user:
+      name: philipp
+      group: sudo
+      shell: /bin/bash
+  
+  - name: Add pubkey to philipp
+    authorized_key:
+      user: philipp
+      state: present
+      key: "{{ lookup('file', pubkey_location) }}"
+ 
+  - name: Install git
+    apt:
+      name: git
+      state: latest
+      update_cache: yes
+
+  - name: checkout dotfiles repo to philipp's home
+    git:
+      dest: /home/philipp/.dotfiles
+      repo: https://github.com/tastybug/dotfiles-ansible
+  
+  - name: dotfiles repo needs to belong to philipp
+    command: chown philipp:staff -R /home/philipp/.dotfiles
+
+  - name: only allow pubkey based logins from now on
+    command: sed -i -e '$aPasswordAuthentication no' /etc/ssh/sshd_config
+    notify: Restart sshd
+
+  - name: MOTD mentions password situation
+    copy:
+      content: Remember to set yourself a password (sudo passwd $USER)
+      dest: /etc/motd
+
+  - name: sudo members don't have to specify the password 
+    lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^%sudo'
+      line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+  
+  handlers:
+    - name: Restart sshd
+      service:
+        name: ssh
+        state: restarted
