@@ -46,7 +46,7 @@ resource "hcloud_firewall" "fw-rules" {
 
 # Create a new server running debian
 resource "hcloud_server" "node1" {
-  name        = "node1"
+  name        = "hetzner-vm"
   image       = "debian-11"
   server_type = "cx11"
   ssh_keys    = [hcloud_ssh_key.default.id]
