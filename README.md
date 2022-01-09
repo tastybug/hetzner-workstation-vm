@@ -6,6 +6,6 @@ Prerequisites:
 * store the API token in `~/.hetzner/token`
 * have Terraform installed
 
-Run `terraform apply -var hcloud_token=$(cat ~/.hetzner/token) && ssh philipp@$(terraform output -raw instance_ip)`.
+Run `terraform init && terraform apply -var hcloud_token=$(cat ~/.hetzner/token) && ssh philipp@$(terraform output -raw instance_ip)`.
 
 What you get: a user philipp that is in group sudo (nopasswd for them) and .dotfiles is already present. Remember to set a password on first login (`sudo passwd $USER`)
