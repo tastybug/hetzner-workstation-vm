@@ -20,12 +20,37 @@ locals {
   pubkey_location = "~/.ssh/ansible.pub"
 }
 
+resource "hcloud_firewall" "fw-rules" {
+  name = "ssh-plus-9000"
+
+  rule {
+    direction = "in"
+    protocol  = "tcp"
+    port      = "22"
+    source_ips = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+  rule {
+    direction = "in"
+    protocol  = "tcp"
+    port      = "9000"
+    source_ips = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+
+}
+
 # Create a new server running debian
 resource "hcloud_server" "node1" {
   name        = "node1"
   image       = "debian-11"
   server_type = "cx11"
   ssh_keys    = [hcloud_ssh_key.default.id]
+  firewall_ids = [hcloud_firewall.fw-rules.id]
 
   ## hack: this remote-exec provisioner will retry until a ssh connection can be made (ergo: the instance is up)
   ## at this point the local-exec below can start. The local exec has no retry and no idea when the instance is ready.
