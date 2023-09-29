@@ -7,9 +7,9 @@ Prerequisites:
 * have Terraform installed
 
 If you want to see what images Hetzner offers, run:
-`curl -H "Authorization: Bearer $(cat ~/.hetzner/token)"  https://api.hetzner.cloud/v1/images | less`
+`curl -s -H "Authorization: Bearer $(cat ~/.hetzner/token)"  https://api.hetzner.cloud/v1/images?page=3`
 
-## Creation 
+## Creation
 
 What you get: a user philipp that is in group sudo (nopasswd for them) and .dotfiles is already present. Remember to set a password on first login (`sudo passwd $USER`)
 

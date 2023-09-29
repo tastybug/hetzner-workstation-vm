@@ -32,19 +32,9 @@ resource "hcloud_firewall" "fw-rules" {
       "::/0"
     ]
   }
-  rule {
-    direction = "in"
-    protocol  = "tcp"
-    port      = "9000"
-    source_ips = [
-      "0.0.0.0/0",
-      "::/0"
-    ]
-  }
 
 }
 
-# Create a new server running debian
 resource "hcloud_server" "node1" {
   name        = "hetzner-vm"
   image       = "ubuntu-22.04"
