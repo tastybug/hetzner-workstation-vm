@@ -3,7 +3,7 @@
 This sets up a workstation VM at Hetzner Cloud.
 
 Prerequisites:
-* store the API token in `~/.hetzner/token`
+* store the API token in `$HOME/.hetzner/token`
 * have Terraform installed
 
 If you want to see what images Hetzner offers, run:
@@ -15,10 +15,10 @@ What you get: a user philipp that is in group sudo (nopasswd for them) and .dotf
 
 ```
 terraform init \
-&& terraform apply -var hcloud_token=$(cat ~/.hetzner/token) \
+&& terraform apply -var hcloud_token=$(cat $HOME/.hetzner/token) \
 && ssh-keygen -R $(terraform output -raw instance_ip) \
-&& ssh-add /home/philipp/.ssh/ansible \
-&& ssh philipp@$(terraform output -raw instance_ip)
+&& ssh-add $HOME/.ssh/ansible \
+&& ssh $USER@$(terraform output -raw instance_ip)
 ```
 
 
