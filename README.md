@@ -3,7 +3,8 @@
 This sets up a workstation VM at Hetzner Cloud.
 
 Prerequisites:
-* store the API token in `$HOME/.hetzner/token`
+* store the Hetzner API token in `$HOME/.hetzner/token`
+* have `ansible` and `ansible.pub` keys in `~/.ssh`
 * have Terraform installed
 
 If you want to see what images Hetzner offers, run:
@@ -20,7 +21,6 @@ terraform init \
 && ssh-add $HOME/.ssh/ansible \
 && ssh $USER@$(terraform output -raw instance_ip)
 ```
-
 
 ## Destruction
 
