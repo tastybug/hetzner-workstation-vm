@@ -10,18 +10,12 @@ Prerequisites:
 If you want to see what images Hetzner offers, run:
 `curl -s -H "Authorization: Bearer $(cat ~/.hetzner/token)"  https://api.hetzner.cloud/v1/images?page=3`
 
-## Creation
+## Creation and Destruction
 
 What you get: a user philipp that is in group sudo (nopasswd for them) and .dotfiles is already present. Remember to set a password on first login (`sudo passwd $USER`)
 
 ```
-terraform init \
-&& terraform apply -var hcloud_token=$(cat $HOME/.hetzner/token) \
-&& ssh-keygen -R $(terraform output -raw instance_ip) \
-&& ssh-add $HOME/.ssh/ansible \
-&& ssh $USER@$(terraform output -raw instance_ip)
+make init apply connect
+make destroy
 ```
 
-## Destruction
-
-`terraform destroy -var hcloud_token=$(cat ~/.hetzner/token)`
