@@ -32,4 +32,4 @@ connect:
 	ssh-add $(USER_HOME)/.ssh/ansible
 	ssh $(shell whoami)@$(shell terraform output -raw instance_ip)
 init:
-	terraform init
+	terraform init -upgrade
