@@ -38,7 +38,7 @@ resource "hcloud_firewall" "fw-rules" {
 resource "hcloud_server" "node1" {
   name        = "hetzner-vm"
   image       = "ubuntu-22.04"
-  server_type = "cx11"
+  server_type = "cax21"
   ssh_keys    = [hcloud_ssh_key.default.id]
   firewall_ids = [hcloud_firewall.fw-rules.id]
 
